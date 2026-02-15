@@ -1,4 +1,4 @@
-package ding.co.kentbackspring;
+package example.com.kentbackspring;
 
 import org.junit.jupiter.api.Test;
 

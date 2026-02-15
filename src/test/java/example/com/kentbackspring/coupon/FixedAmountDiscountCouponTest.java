@@ -1,4 +1,4 @@
-package ding.co.kentbackspring.coupon;
+package example.com.kentbackspring.coupon;
 
 import org.junit.jupiter.api.Test;
 
