@@ -157,4 +157,28 @@ class CartCouponTest {
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessage("minimum order amount not met");
     }
+
+    @Test
+    void shouldExcludeShippingFeeFromMinimumOrderAmountCalculation() {
+        Cart cart = new Cart(List.of(
+                new Product("P-100", "FOOD", "B-1", 10_000, 1)
+        ), 5_000);
+        CartCoupon coupon = CartCoupon.fixedAmount(1_000, 12_000);
+
+        assertThatThrownBy(() -> coupon.apply(cart))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessage("minimum order amount not met");
+    }
+
+    @Test
+    void shouldExcludeShippingFeeFromDiscountCalculation() {
+        Cart cart = new Cart(List.of(
+                new Product("P-100", "FOOD", "B-1", 10_000, 1)
+        ), 5_000);
+        CartCoupon coupon = CartCoupon.percentage(10, 0);
+
+        CartCouponResult result = coupon.apply(cart);
+
+        assertThat(result.totalDiscount()).isEqualTo(1_000);
+    }
 }

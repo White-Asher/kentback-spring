@@ -253,6 +253,19 @@
 - 실행(전체): `.\gradlew test`
 - 결과(전체): 성공 (`BUILD SUCCESSFUL`)
 
+## 2026-02-16 - Phase 4.4 Cart Coupon (Shipping Fee Exclusion)
+
+### Green
+- 구현: `CartCouponTest`에 배송비 제외 규칙 테스트 2개 추가
+- 검증: 최소 주문 금액/할인 계산 모두 배송비 제외 기준으로 동작 확인
+- 실행(단위): `.\gradlew test --tests "example.com.kentbackspring.coupon.CartCouponTest"`
+- 결과(단위): 성공 (`BUILD SUCCESSFUL`)
+
+### Refactor
+- 변경: 구조 리팩터링 없음 (기존 구현 재사용)
+- 실행(전체): `.\gradlew test`
+- 결과(전체): 성공 (`BUILD SUCCESSFUL`)
+
 ## 2026-02-16 - Phase 2.1 Coupon Basic Info (Name & Description)
 
 ### Red
