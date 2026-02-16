@@ -121,6 +121,19 @@
 - 실행(전체): `.\gradlew test`
 - 결과(전체): 성공 (`BUILD SUCCESSFUL`)
 
+## 2026-02-16 - Phase 2.3 Coupon Issue Quantity Management
+
+### Green
+- 구현: `CouponIssueManager` 추가 (총 발급 수량, 사용자당 발급 제한, 중복 발급 차단)
+- 구현: `CouponIssueManagerTest`에 4개 정책 테스트 추가
+- 실행(단위): `.\gradlew test --tests "example.com.kentbackspring.coupon.CouponIssueManagerTest"`
+- 결과(단위): 성공 (`BUILD SUCCESSFUL`)
+
+### Refactor
+- 변경: 구조 리팩터링 없음 (최소 구현 유지)
+- 실행(전체): `.\gradlew test`
+- 결과(전체): 성공 (`BUILD SUCCESSFUL`)
+
 ## 2026-02-16 - Phase 2.1 Coupon Basic Info (Name & Description)
 
 ### Red
