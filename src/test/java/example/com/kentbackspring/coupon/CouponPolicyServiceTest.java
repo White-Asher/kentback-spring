@@ -64,4 +64,42 @@ class CouponPolicyServiceTest {
 
         assertThat(selected.code()).isEqualTo("COUPON-B");
     }
+
+    @Test
+    void shouldApplyProductCouponThenCartCouponSequentially() {
+        CouponCandidate productCoupon = new CouponCandidate("PRODUCT", 1_000, LocalDateTime.of(2026, 2, 28, 23, 59, 59));
+        CouponCandidate cartCoupon = new CouponCandidate("CART", 2_000, LocalDateTime.of(2026, 2, 28, 23, 59, 59));
+
+        SequentialDiscountResult result = policyService.applySequential(10_000, productCoupon, cartCoupon);
+
+        assertThat(result.afterProductCoupon()).isEqualTo(9_000);
+        assertThat(result.afterCartCoupon()).isEqualTo(7_000);
+    }
+
+    @Test
+    void shouldDefineSequentialOrderAsProductThenCart() {
+        CouponCandidate productCoupon = new CouponCandidate("PRODUCT", 9_000, LocalDateTime.of(2026, 2, 28, 23, 59, 59));
+        CouponCandidate cartCoupon = new CouponCandidate("CART", 1_000, LocalDateTime.of(2026, 2, 28, 23, 59, 59));
+
+        SequentialDiscountResult result = policyService.applySequential(10_000, productCoupon, cartCoupon);
+
+        assertThat(result.afterProductCoupon()).isEqualTo(1_000);
+        assertThat(result.afterCartCoupon()).isEqualTo(0);
+    }
+
+    @Test
+    void shouldCompareSequentialResultAgainstNoStackingPolicy() {
+        CouponCandidate productCoupon = new CouponCandidate("PRODUCT", 1_000, LocalDateTime.of(2026, 2, 28, 23, 59, 59));
+        CouponCandidate cartCoupon = new CouponCandidate("CART", 2_000, LocalDateTime.of(2026, 2, 28, 23, 59, 59));
+        CouponCandidate bestSingle = new CouponCandidate("SINGLE-BEST", 2_500, LocalDateTime.of(2026, 2, 28, 23, 59, 59));
+
+        boolean better = policyService.isSequentialBetterThanNoStackingPolicy(
+                10_000,
+                productCoupon,
+                cartCoupon,
+                List.of(bestSingle)
+        );
+
+        assertThat(better).isTrue();
+    }
 }

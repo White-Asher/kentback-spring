@@ -37,4 +37,31 @@ public class CouponPolicyService {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("no coupons to apply"));
     }
+
+    public SequentialDiscountResult applySequential(
+            int originalOrderAmount,
+            CouponCandidate productCoupon,
+            CouponCandidate cartCoupon
+    ) {
+        int afterProductCoupon = applyCouponAmount(originalOrderAmount, productCoupon);
+        int afterCartCoupon = applyCouponAmount(afterProductCoupon, cartCoupon);
+        return new SequentialDiscountResult(afterProductCoupon, afterCartCoupon);
+    }
+
+    public boolean isSequentialBetterThanNoStackingPolicy(
+            int originalOrderAmount,
+            CouponCandidate productCoupon,
+            CouponCandidate cartCoupon,
+            List<CouponCandidate> singlePolicyCandidates
+    ) {
+        int sequentialFinalAmount = applySequential(originalOrderAmount, productCoupon, cartCoupon).afterCartCoupon();
+        CouponCandidate bestSingleCoupon = selectBestCoupon(singlePolicyCandidates);
+        int singlePolicyFinalAmount = applyCouponAmount(originalOrderAmount, bestSingleCoupon);
+        return sequentialFinalAmount < singlePolicyFinalAmount;
+    }
+
+    private int applyCouponAmount(int baseAmount, CouponCandidate coupon) {
+        int discounted = baseAmount - coupon.discountAmount();
+        return Math.max(discounted, 0);
+    }
 }
