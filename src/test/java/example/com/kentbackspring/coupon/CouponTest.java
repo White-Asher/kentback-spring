@@ -57,4 +57,58 @@ class CouponTest {
         assertThat(coupon.validFrom()).isEqualTo(validFrom);
         assertThat(coupon.validTo()).isEqualTo(validTo);
     }
+
+    @Test
+    void shouldNotBeUsableBeforeValidityStart() {
+        Coupon coupon = new Coupon(
+                "WELCOME-2026",
+                "신규 가입 쿠폰",
+                "신규 가입 고객 대상 10% 할인",
+                LocalDateTime.of(2026, 2, 16, 0, 0),
+                LocalDateTime.of(2026, 2, 28, 23, 59, 59)
+        );
+
+        boolean usable = coupon.isUsableAt(LocalDateTime.of(2026, 2, 15, 23, 59, 59));
+
+        assertThat(usable).isFalse();
+    }
+
+    @Test
+    void shouldBeUsableWithinValidityPeriod() {
+        Coupon coupon = new Coupon(
+                "WELCOME-2026",
+                "신규 가입 쿠폰",
+                "신규 가입 고객 대상 10% 할인",
+                LocalDateTime.of(2026, 2, 16, 0, 0),
+                LocalDateTime.of(2026, 2, 28, 23, 59, 59)
+        );
+
+        boolean usable = coupon.isUsableAt(LocalDateTime.of(2026, 2, 20, 12, 30));
+
+        assertThat(usable).isTrue();
+    }
+
+    @Test
+    void shouldNotBeUsableAfterValidityEnd() {
+        Coupon coupon = new Coupon(
+                "WELCOME-2026",
+                "신규 가입 쿠폰",
+                "신규 가입 고객 대상 10% 할인",
+                LocalDateTime.of(2026, 2, 16, 0, 0),
+                LocalDateTime.of(2026, 2, 28, 23, 59, 59)
+        );
+
+        boolean usable = coupon.isUsableAt(LocalDateTime.of(2026, 3, 1, 0, 0));
+
+        assertThat(usable).isFalse();
+    }
+
+    @Test
+    void shouldCalculateExpiryDateFromIssuedDateForNDaysValidity() {
+        LocalDateTime issuedAt = LocalDateTime.of(2026, 2, 16, 10, 15);
+
+        LocalDateTime expiresAt = Coupon.calculateExpiresAt(issuedAt, 7);
+
+        assertThat(expiresAt).isEqualTo(LocalDateTime.of(2026, 2, 23, 23, 59, 59));
+    }
 }

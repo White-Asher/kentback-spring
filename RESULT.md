@@ -107,6 +107,20 @@
 - 실행(전체): `.\gradlew test`
 - 결과(전체): 성공 (`BUILD SUCCESSFUL`)
 
+## 2026-02-16 - Phase 2.2 Coupon Validity Period
+
+### Green
+- 구현: `Coupon.isUsableAt(LocalDateTime)` 추가 (시작/종료 경계 포함 판정)
+- 구현: `Coupon.calculateExpiresAt(LocalDateTime, int)` 추가 (발급일 기준 N일 만료 계산)
+- 구현: `CouponTest`에 유효 시작 전/기간 내/만료 후/발급 후 N일 만료 계산 테스트 4건 추가
+- 실행(단위): `.\gradlew test --tests "example.com.kentbackspring.coupon.CouponTest"`
+- 결과(단위): 성공 (`BUILD SUCCESSFUL`)
+
+### Refactor
+- 변경: 구조 리팩터링 없음 (최소 구현 유지)
+- 실행(전체): `.\gradlew test`
+- 결과(전체): 성공 (`BUILD SUCCESSFUL`)
+
 ## 2026-02-16 - Phase 2.1 Coupon Basic Info (Name & Description)
 
 ### Red
