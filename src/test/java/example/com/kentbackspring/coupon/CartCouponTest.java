@@ -112,4 +112,49 @@ class CartCouponTest {
 
         assertThat(distributedSum).isEqualTo(result.totalDiscount());
     }
+
+    @Test
+    void shouldIncludeOnlySpecificCategoryProductsForCartCoupon() {
+        Cart cart = new Cart(List.of(
+                new Product("P-100", "FOOD", "B-1", 10_000, 1),
+                new Product("P-200", "BEAUTY", "B-2", 10_000, 1)
+        ), 0);
+        CartCoupon coupon = CartCoupon.fixedAmount(5_000, 0)
+                .withIncludedCategoryIds(java.util.Set.of("FOOD"));
+
+        CartCouponResult result = coupon.apply(cart);
+
+        assertThat(result.eligibleSubtotal()).isEqualTo(10_000);
+        assertThat(result.discountByProductId()).containsOnlyKeys("P-100");
+    }
+
+    @Test
+    void shouldExcludeProductsInExclusionListFromDiscountCalculation() {
+        Cart cart = new Cart(List.of(
+                new Product("P-100", "FOOD", "B-1", 10_000, 1),
+                new Product("P-200", "FOOD", "B-2", 10_000, 1)
+        ), 0);
+        CartCoupon coupon = CartCoupon.fixedAmount(4_000, 0)
+                .withExcludedProductIds(java.util.Set.of("P-200"));
+
+        CartCouponResult result = coupon.apply(cart);
+
+        assertThat(result.eligibleSubtotal()).isEqualTo(10_000);
+        assertThat(result.discountByProductId()).containsOnlyKeys("P-100");
+        assertThat(result.totalDiscount()).isEqualTo(4_000);
+    }
+
+    @Test
+    void shouldNotApplyWhenFilteredProductsBelowMinimumOrderAmount() {
+        Cart cart = new Cart(List.of(
+                new Product("P-100", "FOOD", "B-1", 10_000, 1),
+                new Product("P-200", "BEAUTY", "B-2", 10_000, 1)
+        ), 0);
+        CartCoupon coupon = CartCoupon.fixedAmount(3_000, 12_000)
+                .withIncludedCategoryIds(java.util.Set.of("FOOD"));
+
+        assertThatThrownBy(() -> coupon.apply(cart))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessage("minimum order amount not met");
+    }
 }

@@ -240,6 +240,19 @@
 - 실행(전체): `.\gradlew test`
 - 결과(전체): 성공 (`BUILD SUCCESSFUL`)
 
+## 2026-02-16 - Phase 4.3 Cart Coupon (Target Product Filtering)
+
+### Green
+- 구현: `CartCouponTest`에 카테고리 포함/제외 상품/필터 후 최소금액 테스트 3개 추가
+- 검증: `CartCoupon` 필터링 로직(`withIncludedCategoryIds`, `withExcludedProductIds`) 동작 확인
+- 실행(단위): `.\gradlew test --tests "example.com.kentbackspring.coupon.CartCouponTest"`
+- 결과(단위): 성공 (`BUILD SUCCESSFUL`)
+
+### Refactor
+- 변경: 구조 리팩터링 없음 (기존 필터링 로직 재사용)
+- 실행(전체): `.\gradlew test`
+- 결과(전체): 성공 (`BUILD SUCCESSFUL`)
+
 ## 2026-02-16 - Phase 2.1 Coupon Basic Info (Name & Description)
 
 ### Red
