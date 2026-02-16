@@ -214,6 +214,19 @@
 - 실행(전체): `.\gradlew test`
 - 결과(전체): 성공 (`BUILD SUCCESSFUL`)
 
+## 2026-02-16 - Phase 4.1 Cart Coupon (Cart Total Discount)
+
+### Green
+- 구현: `Cart`, `CartCoupon`, `CartCouponResult` 추가
+- 구현: `CartCouponTest`에 정액/정률/최소 주문 금액 테스트 3개 추가
+- 실행(단위): `.\gradlew test --tests "example.com.kentbackspring.coupon.CartCouponTest"`
+- 결과(단위): 성공 (`BUILD SUCCESSFUL`)
+
+### Refactor
+- 변경: 구조 리팩터링 없음 (최소 구현 유지)
+- 실행(전체): `.\gradlew test`
+- 결과(전체): 성공 (`BUILD SUCCESSFUL`)
+
 ## 2026-02-16 - Phase 2.1 Coupon Basic Info (Name & Description)
 
 ### Red
