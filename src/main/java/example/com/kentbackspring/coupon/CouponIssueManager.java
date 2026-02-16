@@ -23,11 +23,11 @@ public class CouponIssueManager {
         return totalIssuableQuantity;
     }
 
-    public int issuedCount() {
+    public synchronized int issuedCount() {
         return issuedCount;
     }
 
-    public void issue(String userId) {
+    public synchronized void issue(String userId) {
         // 전역 발급 수량을 먼저 확인한다.
         if (issuedCount >= totalIssuableQuantity) {
             throw new IllegalStateException("coupon quantity exhausted");

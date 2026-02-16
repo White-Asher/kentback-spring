@@ -396,6 +396,30 @@
 - 실행(전체): `.\gradlew test`
 - 결과(전체): 성공 (`BUILD SUCCESSFUL`)
 
+## 2026-02-16 - Phase 8.1 Concurrency Control (Issue Quantity)
+
+### Red
+- 대상: `CouponIssueManagerConcurrencyTest` 3개 테스트
+  - `shouldHandleConcurrentIssueRequestsForLimitedQuantity`
+  - `shouldFailIssueRequestsExceedingAvailableQuantityUnderConcurrency`
+  - `shouldPreventDuplicateIssueInConcurrentRequests`
+- 실행: `.\gradlew test --tests "example.com.kentbackspring.coupon.CouponIssueManagerConcurrencyTest"`
+- 결과: 실패
+  - `test task timeout` 및 발급 동시성 보장 미흡
+  - 원인: 발급 처리의 원자성/동기화 미보장
+
+### Green
+- 구현: `CouponIssueManager.issue(...)`를 동기화 처리하여 발급 원자성 보장
+- 구현: `CouponIssueManager.issuedCount()` 동기화 조회로 일관성 보장
+- 구현: `CouponIssueManagerConcurrencyTest` 추가 (동시 발급 3개 시나리오)
+- 실행(단위): `.\gradlew test --tests "example.com.kentbackspring.coupon.CouponIssueManagerConcurrencyTest"`
+- 결과(단위): 성공 (`BUILD SUCCESSFUL`)
+
+### Refactor
+- 변경: 동시성 테스트 헬퍼 교착 제거(시작 래치 로직 단순화)
+- 실행(전체): `.\gradlew test`
+- 결과(전체): 성공 (`BUILD SUCCESSFUL`)
+
 ## 2026-02-16 - Phase 2.1 Coupon Basic Info (Name & Description)
 
 ### Red
