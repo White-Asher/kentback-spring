@@ -47,6 +47,18 @@ public class ProductCoupon {
         );
     }
 
+    public static ProductCoupon forCategory(String categoryId, boolean includeSubcategories, int discountAmountPerUnit) {
+        return new ProductCoupon(
+                Set.of(),
+                Set.of(categoryId),
+                includeSubcategories,
+                Set.of(),
+                false,
+                discountAmountPerUnit,
+                Integer.MAX_VALUE
+        );
+    }
+
     public Set<String> targetProductIds() {
         return Collections.unmodifiableSet(targetProductIds);
     }

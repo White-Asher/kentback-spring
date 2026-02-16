@@ -161,6 +161,20 @@
 - 실행(전체): `.\gradlew test`
 - 결과(전체): 성공 (`BUILD SUCCESSFUL`)
 
+## 2026-02-16 - Phase 3.3 Product Coupon (Category Based)
+
+### Green
+- 구현: `ProductCoupon.forCategory(...)` 팩토리 추가
+- 구현: `ProductCouponTest`에 카테고리 기반 3개 테스트 추가
+- 검증: 하위 카테고리 포함 여부에 따라 적용 범위가 달라짐을 확인
+- 실행(단위): `.\gradlew test --tests "example.com.kentbackspring.coupon.ProductCouponTest"`
+- 결과(단위): 성공 (`BUILD SUCCESSFUL`)
+
+### Refactor
+- 변경: 구조 리팩터링 없음 (최소 구현 유지)
+- 실행(전체): `.\gradlew test`
+- 결과(전체): 성공 (`BUILD SUCCESSFUL`)
+
 ## 2026-02-16 - Phase 2.1 Coupon Basic Info (Name & Description)
 
 ### Red

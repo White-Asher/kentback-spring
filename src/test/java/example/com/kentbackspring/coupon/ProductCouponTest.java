@@ -49,4 +49,30 @@ class ProductCouponTest {
 
         assertThat(coupon.canApply(product)).isFalse();
     }
+
+    @Test
+    void shouldApplyCouponOnlyToSpecificCategory() {
+        ProductCoupon coupon = ProductCoupon.forCategory("FOOD", false, 1_000);
+        Product targetProduct = new Product("P-100", "FOOD", "B-1", 10_000, 1);
+        Product nonTargetProduct = new Product("P-200", "BEAUTY", "B-1", 10_000, 1);
+
+        assertThat(coupon.canApply(targetProduct)).isTrue();
+        assertThat(coupon.canApply(nonTargetProduct)).isFalse();
+    }
+
+    @Test
+    void shouldApplyCouponToSubcategoryWhenIncludeSubcategoriesOn() {
+        ProductCoupon coupon = ProductCoupon.forCategory("FOOD", true, 1_000);
+        Product subcategoryProduct = new Product("P-100", "FOOD/SNACK", "B-1", 10_000, 1);
+
+        assertThat(coupon.canApply(subcategoryProduct)).isTrue();
+    }
+
+    @Test
+    void shouldApplyCouponOnlyExactCategoryWhenIncludeSubcategoriesOff() {
+        ProductCoupon coupon = ProductCoupon.forCategory("FOOD", false, 1_000);
+        Product subcategoryProduct = new Product("P-100", "FOOD/SNACK", "B-1", 10_000, 1);
+
+        assertThat(coupon.canApply(subcategoryProduct)).isFalse();
+    }
 }
