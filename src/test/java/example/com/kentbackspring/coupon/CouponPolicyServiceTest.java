@@ -17,6 +17,7 @@ class CouponPolicyServiceTest {
 
     @Test
     void shouldAllowOnlyOneCouponPerOrder() {
+        // 시나리오의 기대 동작을 검증한다.
         CouponCandidate coupon = new CouponCandidate("COUPON-A", 1_000, LocalDateTime.of(2026, 2, 28, 23, 59, 59));
 
         CouponCandidate chosen = policyService.chooseSingleCoupon(List.of(coupon), null);
@@ -26,6 +27,7 @@ class CouponPolicyServiceTest {
 
     @Test
     void shouldThrowWhenApplyingMultipleCouponsSimultaneously() {
+        // 시나리오의 기대 동작을 검증한다.
         CouponCandidate couponA = new CouponCandidate("COUPON-A", 1_000, LocalDateTime.of(2026, 2, 28, 23, 59, 59));
         CouponCandidate couponB = new CouponCandidate("COUPON-B", 2_000, LocalDateTime.of(2026, 2, 28, 23, 59, 59));
 
@@ -36,6 +38,7 @@ class CouponPolicyServiceTest {
 
     @Test
     void shouldAllowUserToSelectCouponExplicitly() {
+        // 시나리오의 기대 동작을 검증한다.
         CouponCandidate couponA = new CouponCandidate("COUPON-A", 1_000, LocalDateTime.of(2026, 2, 28, 23, 59, 59));
         CouponCandidate couponB = new CouponCandidate("COUPON-B", 2_000, LocalDateTime.of(2026, 2, 28, 23, 59, 59));
 
@@ -46,6 +49,7 @@ class CouponPolicyServiceTest {
 
     @Test
     void shouldAutomaticallySelectCouponWithLargestDiscount() {
+        // 시나리오의 기대 동작을 검증한다.
         CouponCandidate couponA = new CouponCandidate("COUPON-A", 1_000, LocalDateTime.of(2026, 2, 28, 23, 59, 59));
         CouponCandidate couponB = new CouponCandidate("COUPON-B", 3_000, LocalDateTime.of(2026, 2, 28, 23, 59, 59));
         CouponCandidate couponC = new CouponCandidate("COUPON-C", 2_000, LocalDateTime.of(2026, 2, 28, 23, 59, 59));
@@ -57,6 +61,7 @@ class CouponPolicyServiceTest {
 
     @Test
     void shouldSelectEarliestExpiringCouponWhenFixedDiscountIsSame() {
+        // 시나리오의 기대 동작을 검증한다.
         CouponCandidate couponA = new CouponCandidate("COUPON-A", 2_000, LocalDateTime.of(2026, 2, 25, 23, 59, 59));
         CouponCandidate couponB = new CouponCandidate("COUPON-B", 2_000, LocalDateTime.of(2026, 2, 20, 23, 59, 59));
 
@@ -67,6 +72,7 @@ class CouponPolicyServiceTest {
 
     @Test
     void shouldApplyProductCouponThenCartCouponSequentially() {
+        // 시나리오의 기대 동작을 검증한다.
         CouponCandidate productCoupon = new CouponCandidate("PRODUCT", 1_000, LocalDateTime.of(2026, 2, 28, 23, 59, 59));
         CouponCandidate cartCoupon = new CouponCandidate("CART", 2_000, LocalDateTime.of(2026, 2, 28, 23, 59, 59));
 
@@ -78,6 +84,7 @@ class CouponPolicyServiceTest {
 
     @Test
     void shouldDefineSequentialOrderAsProductThenCart() {
+        // 시나리오의 기대 동작을 검증한다.
         CouponCandidate productCoupon = new CouponCandidate("PRODUCT", 9_000, LocalDateTime.of(2026, 2, 28, 23, 59, 59));
         CouponCandidate cartCoupon = new CouponCandidate("CART", 1_000, LocalDateTime.of(2026, 2, 28, 23, 59, 59));
 
@@ -89,6 +96,7 @@ class CouponPolicyServiceTest {
 
     @Test
     void shouldCompareSequentialResultAgainstNoStackingPolicy() {
+        // 시나리오의 기대 동작을 검증한다.
         CouponCandidate productCoupon = new CouponCandidate("PRODUCT", 1_000, LocalDateTime.of(2026, 2, 28, 23, 59, 59));
         CouponCandidate cartCoupon = new CouponCandidate("CART", 2_000, LocalDateTime.of(2026, 2, 28, 23, 59, 59));
         CouponCandidate bestSingle = new CouponCandidate("SINGLE-BEST", 2_500, LocalDateTime.of(2026, 2, 28, 23, 59, 59));

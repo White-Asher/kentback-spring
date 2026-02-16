@@ -11,6 +11,7 @@ public record ProductCouponOrderItem(
 ) {
 
     public int paidAmount() {
+        // 쿠폰 할인 적용 후 실제 결제된 금액이다.
         return unitPrice * quantity - appliedDiscountAmount;
     }
 }

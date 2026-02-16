@@ -17,6 +17,7 @@ class CouponLifecycleServiceTest {
 
     @Test
     void shouldIssueCouponToUser() {
+        // 시나리오의 기대 동작을 검증한다.
         IssuedCoupon issuedCoupon = lifecycleService.issueCoupon(
                 "user-1",
                 "WELCOME-10",
@@ -29,6 +30,7 @@ class CouponLifecycleServiceTest {
 
     @Test
     void shouldStartIssuedCouponAsUnusedState() {
+        // 시나리오의 기대 동작을 검증한다.
         IssuedCoupon issuedCoupon = lifecycleService.issueCoupon(
                 "user-1",
                 "WELCOME-10",
@@ -41,6 +43,7 @@ class CouponLifecycleServiceTest {
 
     @Test
     void shouldNotIssueAlreadyIssuedCouponAgain() {
+        // 시나리오의 기대 동작을 검증한다.
         lifecycleService.issueCoupon(
                 "user-1",
                 "WELCOME-10",
@@ -60,6 +63,7 @@ class CouponLifecycleServiceTest {
 
     @Test
     void shouldRecordIssuedDateTimeWhenIssuingCoupon() {
+        // 시나리오의 기대 동작을 검증한다.
         LocalDateTime issuedAt = LocalDateTime.of(2026, 2, 16, 10, 0);
         IssuedCoupon issuedCoupon = lifecycleService.issueCoupon(
                 "user-1",
@@ -73,6 +77,7 @@ class CouponLifecycleServiceTest {
 
     @Test
     void shouldMarkUnusedCouponAsUsed() {
+        // 시나리오의 기대 동작을 검증한다.
         lifecycleService.issueCoupon(
                 "user-1",
                 "WELCOME-10",
@@ -88,6 +93,7 @@ class CouponLifecycleServiceTest {
 
     @Test
     void shouldRecordUsedDateTimeWhenCouponUsed() {
+        // 시나리오의 기대 동작을 검증한다.
         lifecycleService.issueCoupon(
                 "user-1",
                 "WELCOME-10",
@@ -104,6 +110,7 @@ class CouponLifecycleServiceTest {
 
     @Test
     void shouldNotUseAlreadyUsedCouponAgain() {
+        // 시나리오의 기대 동작을 검증한다.
         lifecycleService.issueCoupon(
                 "user-1",
                 "WELCOME-10",
@@ -121,6 +128,7 @@ class CouponLifecycleServiceTest {
 
     @Test
     void shouldLinkOrderIdWhenCouponUsed() {
+        // 시나리오의 기대 동작을 검증한다.
         lifecycleService.issueCoupon(
                 "user-1",
                 "WELCOME-10",
@@ -136,6 +144,7 @@ class CouponLifecycleServiceTest {
 
     @Test
     void shouldRetrieveAvailableCouponListForUser() {
+        // 시나리오의 기대 동작을 검증한다.
         lifecycleService.issueCoupon(
                 "user-1",
                 "WELCOME-10",
@@ -157,6 +166,7 @@ class CouponLifecycleServiceTest {
 
     @Test
     void shouldExcludeExpiredCouponFromAvailableList() {
+        // 시나리오의 기대 동작을 검증한다.
         lifecycleService.issueCoupon(
                 "user-1",
                 "EXPIRED",
@@ -171,6 +181,7 @@ class CouponLifecycleServiceTest {
 
     @Test
     void shouldExcludeUsedCouponFromAvailableList() {
+        // 시나리오의 기대 동작을 검증한다.
         lifecycleService.issueCoupon(
                 "user-1",
                 "USED-COUPON",
@@ -186,6 +197,7 @@ class CouponLifecycleServiceTest {
 
     @Test
     void shouldRestoreUsedCouponWhenOrderFullyCanceled() {
+        // 시나리오의 기대 동작을 검증한다.
         lifecycleService.issueCoupon(
                 "user-1",
                 "WELCOME-10",
@@ -202,6 +214,7 @@ class CouponLifecycleServiceTest {
 
     @Test
     void shouldChangeRestoredCouponToUnusedState() {
+        // 시나리오의 기대 동작을 검증한다.
         lifecycleService.issueCoupon(
                 "user-1",
                 "WELCOME-10",
@@ -220,6 +233,7 @@ class CouponLifecycleServiceTest {
 
     @Test
     void shouldKeepCouponUsageHistoryForAudit() {
+        // 시나리오의 기대 동작을 검증한다.
         lifecycleService.issueCoupon(
                 "user-1",
                 "WELCOME-10",
@@ -237,6 +251,7 @@ class CouponLifecycleServiceTest {
 
     @Test
     void shouldApplyExpiryExtensionPolicyForExpiredCouponOnRestore() {
+        // 시나리오의 기대 동작을 검증한다.
         lifecycleService.issueCoupon(
                 "user-1",
                 "WELCOME-10",

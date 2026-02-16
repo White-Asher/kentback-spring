@@ -17,6 +17,7 @@ class ProductCouponCancelServiceTest {
 
     @Test
     void shouldRestoreCouponWhenCancelingOnlyCouponAppliedItems() {
+        // 시나리오의 기대 동작을 검증한다.
         IssuedCoupon issuedCoupon = new IssuedCoupon(
                 "user-1",
                 "PRODUCT-COUPON",
@@ -42,6 +43,7 @@ class ProductCouponCancelServiceTest {
 
     @Test
     void shouldKeepCouponWhenCancelingOnlyNonCouponAppliedItems() {
+        // 시나리오의 기대 동작을 검증한다.
         IssuedCoupon issuedCoupon = new IssuedCoupon(
                 "user-1",
                 "PRODUCT-COUPON",
@@ -67,6 +69,7 @@ class ProductCouponCancelServiceTest {
 
     @Test
     void shouldCalculateAccurateRefundAmountOnPartialCancel() {
+        // 시나리오의 기대 동작을 검증한다.
         IssuedCoupon issuedCoupon = new IssuedCoupon(
                 "user-1",
                 "PRODUCT-COUPON",

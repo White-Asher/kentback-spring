@@ -12,6 +12,7 @@ public record Product(
 ) {
 
     public int totalPrice() {
+        // 주문 수량을 반영한 상품 총액이다.
         return unitPrice * quantity;
     }
 }

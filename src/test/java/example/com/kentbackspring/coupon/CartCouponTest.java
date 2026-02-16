@@ -14,6 +14,7 @@ class CartCouponTest {
 
     @Test
     void shouldApplyFixedDiscountToCartTotalAmount() {
+        // 시나리오의 기대 동작을 검증한다.
         Cart cart = new Cart(List.of(
                 new Product("P-100", "FOOD", "B-1", 10_000, 1),
                 new Product("P-200", "FOOD", "B-2", 5_000, 1)
@@ -28,6 +29,7 @@ class CartCouponTest {
 
     @Test
     void shouldApplyPercentageDiscountToCartTotalAmount() {
+        // 시나리오의 기대 동작을 검증한다.
         Cart cart = new Cart(List.of(
                 new Product("P-100", "FOOD", "B-1", 10_000, 1),
                 new Product("P-200", "FOOD", "B-2", 10_000, 1)
@@ -42,6 +44,7 @@ class CartCouponTest {
 
     @Test
     void shouldNotApplyCartCouponWhenBelowMinimumOrderAmount() {
+        // 시나리오의 기대 동작을 검증한다.
         Cart cart = new Cart(List.of(
                 new Product("P-100", "FOOD", "B-1", 10_000, 1),
                 new Product("P-200", "FOOD", "B-2", 5_000, 1)
@@ -55,6 +58,7 @@ class CartCouponTest {
 
     @Test
     void shouldDistributeCartDiscountByProductPriceRatio() {
+        // 시나리오의 기대 동작을 검증한다.
         Cart cart = new Cart(List.of(
                 new Product("P-100", "FOOD", "B-1", 10_000, 1),
                 new Product("P-200", "FOOD", "B-2", 5_000, 1),
@@ -71,6 +75,7 @@ class CartCouponTest {
 
     @Test
     void shouldTruncateFractionalDiscountOnDistributionToWonUnit() {
+        // 시나리오의 기대 동작을 검증한다.
         Cart cart = new Cart(List.of(
                 new Product("P-100", "FOOD", "B-1", 3_333, 1),
                 new Product("P-200", "FOOD", "B-2", 3_333, 1),
@@ -86,6 +91,7 @@ class CartCouponTest {
 
     @Test
     void shouldAllocateRemainderDiscountToMostExpensiveProduct() {
+        // 시나리오의 기대 동작을 검증한다.
         Cart cart = new Cart(List.of(
                 new Product("P-100", "FOOD", "B-1", 3_333, 1),
                 new Product("P-200", "FOOD", "B-2", 3_333, 1),
@@ -100,6 +106,7 @@ class CartCouponTest {
 
     @Test
     void shouldMakeDistributedDiscountSumExactlyEqualToTotalDiscount() {
+        // 시나리오의 기대 동작을 검증한다.
         Cart cart = new Cart(List.of(
                 new Product("P-100", "FOOD", "B-1", 3_333, 1),
                 new Product("P-200", "FOOD", "B-2", 3_333, 1),
@@ -115,6 +122,7 @@ class CartCouponTest {
 
     @Test
     void shouldIncludeOnlySpecificCategoryProductsForCartCoupon() {
+        // 시나리오의 기대 동작을 검증한다.
         Cart cart = new Cart(List.of(
                 new Product("P-100", "FOOD", "B-1", 10_000, 1),
                 new Product("P-200", "BEAUTY", "B-2", 10_000, 1)
@@ -130,6 +138,7 @@ class CartCouponTest {
 
     @Test
     void shouldExcludeProductsInExclusionListFromDiscountCalculation() {
+        // 시나리오의 기대 동작을 검증한다.
         Cart cart = new Cart(List.of(
                 new Product("P-100", "FOOD", "B-1", 10_000, 1),
                 new Product("P-200", "FOOD", "B-2", 10_000, 1)
@@ -146,6 +155,7 @@ class CartCouponTest {
 
     @Test
     void shouldNotApplyWhenFilteredProductsBelowMinimumOrderAmount() {
+        // 시나리오의 기대 동작을 검증한다.
         Cart cart = new Cart(List.of(
                 new Product("P-100", "FOOD", "B-1", 10_000, 1),
                 new Product("P-200", "BEAUTY", "B-2", 10_000, 1)
@@ -160,6 +170,7 @@ class CartCouponTest {
 
     @Test
     void shouldExcludeShippingFeeFromMinimumOrderAmountCalculation() {
+        // 시나리오의 기대 동작을 검증한다.
         Cart cart = new Cart(List.of(
                 new Product("P-100", "FOOD", "B-1", 10_000, 1)
         ), 5_000);
@@ -172,6 +183,7 @@ class CartCouponTest {
 
     @Test
     void shouldExcludeShippingFeeFromDiscountCalculation() {
+        // 시나리오의 기대 동작을 검증한다.
         Cart cart = new Cart(List.of(
                 new Product("P-100", "FOOD", "B-1", 10_000, 1)
         ), 5_000);

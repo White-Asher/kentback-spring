@@ -12,4 +12,5 @@ public record CartCouponResult(
         int finalPayableAmount,
         Map<String, Integer> discountByProductId
 ) {
+    // 장바구니 쿠폰 적용의 계산 결과 스냅샷을 보관한다.
 }

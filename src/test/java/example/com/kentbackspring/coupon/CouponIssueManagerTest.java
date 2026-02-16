@@ -12,6 +12,7 @@ class CouponIssueManagerTest {
 
     @Test
     void shouldHaveTotalIssuableQuantity() {
+        // 시나리오의 기대 동작을 검증한다.
         CouponIssueManager issueManager = new CouponIssueManager(100, 1);
 
         assertThat(issueManager.totalIssuableQuantity()).isEqualTo(100);
@@ -19,6 +20,7 @@ class CouponIssueManagerTest {
 
     @Test
     void shouldNotIssueWhenTotalQuantityExhausted() {
+        // 시나리오의 기대 동작을 검증한다.
         CouponIssueManager issueManager = new CouponIssueManager(1, 1);
         issueManager.issue("user-1");
 
@@ -29,6 +31,7 @@ class CouponIssueManagerTest {
 
     @Test
     void shouldNotIssueDuplicateWhenPerUserLimitExists() {
+        // 시나리오의 기대 동작을 검증한다.
         CouponIssueManager issueManager = new CouponIssueManager(100, 1);
         issueManager.issue("user-1");
 
@@ -39,6 +42,7 @@ class CouponIssueManagerTest {
 
     @Test
     void shouldNotIssueAlreadyIssuedCouponAgain() {
+        // 시나리오의 기대 동작을 검증한다.
         CouponIssueManager issueManager = new CouponIssueManager(100, 1);
         issueManager.issue("user-1");
 

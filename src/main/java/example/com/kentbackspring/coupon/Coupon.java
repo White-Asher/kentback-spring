@@ -23,6 +23,7 @@ public record Coupon(
      * 특정 시각에 쿠폰 사용 가능 여부를 반환한다.
      */
     public boolean isUsableAt(LocalDateTime dateTime) {
+        // 유효 시작/종료 경계를 모두 포함한다.
         return !dateTime.isBefore(validFrom) && !dateTime.isAfter(validTo);
     }
 
@@ -30,6 +31,7 @@ public record Coupon(
      * 발급 기준 N일 유효 쿠폰의 만료 시각(23:59:59)을 계산한다.
      */
     public static LocalDateTime calculateExpiresAt(LocalDateTime issuedAt, int validDays) {
+        // 발급일 + N일의 당일 종료 시각으로 만료시킨다.
         return issuedAt.toLocalDate().plusDays(validDays).atTime(23, 59, 59);
     }
 }

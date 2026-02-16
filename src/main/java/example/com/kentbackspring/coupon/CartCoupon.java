@@ -53,12 +53,14 @@ public class CartCoupon {
     }
 
     public CartCouponResult apply(Cart cart) {
+        // 포함/제외 필터를 모두 통과한 상품만 할인 대상으로 본다.
         List<Product> eligibleProducts = cart.products().stream()
                 .filter(this::isIncludedCategory)
                 .filter(product -> !excludedProductIds.contains(product.productId()))
                 .toList();
 
         int eligibleSubtotal = eligibleProducts.stream().mapToInt(Product::totalPrice).sum();
+        // 최소 주문 금액 검증은 배송비 제외, 필터링 후 합계 기준이다.
         if (eligibleSubtotal < minimumOrderAmount) {
             throw new IllegalStateException("minimum order amount not met");
         }
@@ -82,8 +84,10 @@ public class CartCoupon {
             return 0;
         }
         if (discountType == DiscountType.FIXED) {
+            // 정액 쿠폰은 대상 합계를 초과할 수 없다.
             return Math.min(discountValue, eligibleSubtotal);
         }
+        // 정률 쿠폰은 정수 연산으로 원 단위 절사한다.
         return eligibleSubtotal * discountValue / 100;
     }
 
@@ -95,6 +99,7 @@ public class CartCoupon {
 
         int allocated = 0;
         for (Product product : eligibleProducts) {
+            // 상품 금액 비율로 분배하며 소수점은 버림 처리된다.
             int discount = totalDiscount * product.totalPrice() / eligibleSubtotal;
             discountByProductId.put(product.productId(), discount);
             allocated += discount;
@@ -102,6 +107,7 @@ public class CartCoupon {
 
         int remainder = totalDiscount - allocated;
         if (remainder > 0) {
+            // 버림으로 남은 금액은 최고가 상품에 몰아준다.
             Product mostExpensive = eligibleProducts.stream()
                     .max(Comparator.comparingInt(Product::totalPrice))
                     .orElseThrow();
@@ -111,6 +117,7 @@ public class CartCoupon {
     }
 
     private boolean isIncludedCategory(Product product) {
+        // 카테고리 필터가 비어있으면 전체 허용한다.
         return includedCategoryIds.isEmpty() || includedCategoryIds.contains(product.categoryId());
     }
 }
