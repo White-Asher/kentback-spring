@@ -332,6 +332,19 @@
 - 실행(전체): `.\gradlew test`
 - 결과(전체): 성공 (`BUILD SUCCESSFUL`)
 
+## 2026-02-16 - Phase 6.3 Coupon Query
+
+### Green
+- 구현: `CouponLifecycleService.listAvailableCoupons(...)` 추가
+- 구현: `CouponLifecycleServiceTest`에 사용 가능 쿠폰 조회 3개 테스트 추가
+- 실행(단위): `.\gradlew test --tests "example.com.kentbackspring.coupon.CouponLifecycleServiceTest"`
+- 결과(단위): 성공 (`BUILD SUCCESSFUL`)
+
+### Refactor
+- 변경: 구조 리팩터링 없음 (최소 구현 유지)
+- 실행(전체): `.\gradlew test`
+- 결과(전체): 성공 (`BUILD SUCCESSFUL`)
+
 ## 2026-02-16 - Phase 2.1 Coupon Basic Info (Name & Description)
 
 ### Red

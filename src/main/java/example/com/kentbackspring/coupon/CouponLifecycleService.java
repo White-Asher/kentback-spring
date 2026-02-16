@@ -2,6 +2,7 @@ package example.com.kentbackspring.coupon;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -31,5 +32,11 @@ public class CouponLifecycleService {
         IssuedCoupon issuedCoupon = findIssuedCoupon(userId, couponCode)
                 .orElseThrow(() -> new IllegalStateException("issued coupon not found"));
         issuedCoupon.use(orderId, usedAt);
+    }
+
+    public List<IssuedCoupon> listAvailableCoupons(String userId, LocalDateTime now) {
+        return issuedCouponsByUser.getOrDefault(userId, Map.of()).values().stream()
+                .filter(coupon -> coupon.isAvailableAt(now))
+                .toList();
     }
 }

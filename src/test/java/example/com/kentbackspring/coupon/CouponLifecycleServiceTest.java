@@ -3,6 +3,7 @@ package example.com.kentbackspring.coupon;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -131,5 +132,55 @@ class CouponLifecycleServiceTest {
         IssuedCoupon issuedCoupon = lifecycleService.findIssuedCoupon("user-1", "WELCOME-10").orElseThrow();
 
         assertThat(issuedCoupon.orderId()).isEqualTo("ORDER-1");
+    }
+
+    @Test
+    void shouldRetrieveAvailableCouponListForUser() {
+        lifecycleService.issueCoupon(
+                "user-1",
+                "WELCOME-10",
+                LocalDateTime.of(2026, 2, 16, 10, 0),
+                LocalDateTime.of(2026, 2, 28, 23, 59, 59)
+        );
+        lifecycleService.issueCoupon(
+                "user-1",
+                "VIP-20",
+                LocalDateTime.of(2026, 2, 16, 11, 0),
+                LocalDateTime.of(2026, 3, 10, 23, 59, 59)
+        );
+
+        List<IssuedCoupon> available = lifecycleService.listAvailableCoupons("user-1", LocalDateTime.of(2026, 2, 20, 10, 0));
+
+        assertThat(available).extracting(IssuedCoupon::couponCode)
+                .containsExactlyInAnyOrder("WELCOME-10", "VIP-20");
+    }
+
+    @Test
+    void shouldExcludeExpiredCouponFromAvailableList() {
+        lifecycleService.issueCoupon(
+                "user-1",
+                "EXPIRED",
+                LocalDateTime.of(2026, 2, 1, 10, 0),
+                LocalDateTime.of(2026, 2, 10, 23, 59, 59)
+        );
+
+        List<IssuedCoupon> available = lifecycleService.listAvailableCoupons("user-1", LocalDateTime.of(2026, 2, 20, 10, 0));
+
+        assertThat(available).isEmpty();
+    }
+
+    @Test
+    void shouldExcludeUsedCouponFromAvailableList() {
+        lifecycleService.issueCoupon(
+                "user-1",
+                "USED-COUPON",
+                LocalDateTime.of(2026, 2, 16, 10, 0),
+                LocalDateTime.of(2026, 2, 28, 23, 59, 59)
+        );
+        lifecycleService.useCoupon("user-1", "USED-COUPON", "ORDER-1", LocalDateTime.of(2026, 2, 17, 9, 0));
+
+        List<IssuedCoupon> available = lifecycleService.listAvailableCoupons("user-1", LocalDateTime.of(2026, 2, 20, 10, 0));
+
+        assertThat(available).isEmpty();
     }
 }
