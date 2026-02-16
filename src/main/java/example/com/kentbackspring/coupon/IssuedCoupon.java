@@ -61,7 +61,7 @@ public class IssuedCoupon {
         return Collections.unmodifiableList(usageAuditLog);
     }
 
-    public void use(String orderId, LocalDateTime usedAt) {
+    public synchronized void use(String orderId, LocalDateTime usedAt) {
         // 사용 이력의 무결성을 위해 중복 사용을 차단한다.
         if (status == CouponUsageStatus.USED) {
             throw new IllegalStateException("coupon already used");
@@ -73,7 +73,7 @@ public class IssuedCoupon {
         this.usageAuditLog.add("USED:" + orderId + ":" + usedAt);
     }
 
-    public void restore(LocalDateTime restoredAt, int extendDaysIfExpired) {
+    public synchronized void restore(LocalDateTime restoredAt, int extendDaysIfExpired) {
         // 복구 시점에 이미 만료된 경우에만 정책에 따라 만료일을 연장한다.
         if (restoredAt.isAfter(expiresAt) && extendDaysIfExpired > 0) {
             this.expiresAt = restoredAt.plusDays(extendDaysIfExpired);
@@ -85,7 +85,7 @@ public class IssuedCoupon {
         this.usageAuditLog.add("RESTORED:" + restoredAt);
     }
 
-    public boolean isAvailableAt(LocalDateTime now) {
+    public synchronized boolean isAvailableAt(LocalDateTime now) {
         // 사용 가능 조건: 미사용 && 만료 전(또는 만료 시각 동일).
         return status == CouponUsageStatus.UNUSED && !now.isAfter(expiresAt);
     }

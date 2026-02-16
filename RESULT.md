@@ -420,6 +420,29 @@
 - 실행(전체): `.\gradlew test`
 - 결과(전체): 성공 (`BUILD SUCCESSFUL`)
 
+## 2026-02-16 - Phase 8.2 Concurrency Control (Coupon Use)
+
+### Red
+- 대상: `CouponUsageConcurrencyTest` 2개 테스트
+  - `shouldAllowOnlyOneSuccessForConcurrentUseRequestsOnSameCoupon`
+  - `shouldNotAllowCouponAlreadyInUseForAnotherOrder`
+- 실행: `.\gradlew test --tests "example.com.kentbackspring.coupon.CouponUsageConcurrencyTest"`
+- 결과: 실패
+  - `2 tests completed, 1 failed`
+  - 원인: 동일 쿠폰 동시 사용 시 2건 성공 가능(사용 처리 원자성 부족)
+
+### Green
+- 구현: `IssuedCoupon.use(...)` 동기화 처리로 동시 사용 원자성 보장
+- 구현: `IssuedCoupon.restore(...)`, `IssuedCoupon.isAvailableAt(...)` 동기화로 상태 일관성 보강
+- 구현: `CouponUsageConcurrencyTest` 추가 (동시 사용 제어 2개 시나리오)
+- 실행(단위): `.\gradlew test --tests "example.com.kentbackspring.coupon.CouponUsageConcurrencyTest"`
+- 결과(단위): 성공 (`BUILD SUCCESSFUL`)
+
+### Refactor
+- 변경: 구조 리팩터링 없음 (최소 구현 유지)
+- 실행(전체): `.\gradlew test`
+- 결과(전체): 성공 (`BUILD SUCCESSFUL`)
+
 ## 2026-02-16 - Phase 2.1 Coupon Basic Info (Name & Description)
 
 ### Red
