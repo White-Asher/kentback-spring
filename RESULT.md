@@ -373,6 +373,29 @@
 - 실행(전체): `.\gradlew test`
 - 결과(전체): 성공 (`BUILD SUCCESSFUL`)
 
+## 2026-02-16 - Phase 7.3 Order Cancel (Partial Cancel - Cart Coupon)
+
+### Red
+- 대상: `CartCouponCancelServiceTest` 3개 테스트
+  - `shouldRefundDistributedDiscountAmountForPartiallyCanceledProduct`
+  - `shouldKeepCouponEvenIfRemainingAmountBelowMinimumOrderAfterPartialCancel`
+  - `shouldMatchOriginalAmountByAddingRefundAndRemainingAfterPartialCancel`
+- 실행: `.\gradlew test --tests "example.com.kentbackspring.coupon.CartCouponCancelServiceTest"`
+- 결과: 실패
+  - `compileTestJava FAILED`
+  - 원인: `CartCouponCancelService`, `CartCouponOrder`, `CartCouponOrderItem`, `CartCouponPartialCancelResult` 미구현
+
+### Green
+- 구현: `CartCouponCancelService`, `CartCouponOrder`, `CartCouponOrderItem`, `CartCouponPartialCancelResult` 추가
+- 구현: `CartCouponCancelServiceTest`에 부분 취소 규칙 3개 테스트 추가
+- 실행(단위): `.\gradlew test --tests "example.com.kentbackspring.coupon.CartCouponCancelServiceTest"`
+- 결과(단위): 성공 (`BUILD SUCCESSFUL`)
+
+### Refactor
+- 변경: 구조 리팩터링 없음 (최소 구현 유지)
+- 실행(전체): `.\gradlew test`
+- 결과(전체): 성공 (`BUILD SUCCESSFUL`)
+
 ## 2026-02-16 - Phase 2.1 Coupon Basic Info (Name & Description)
 
 ### Red
