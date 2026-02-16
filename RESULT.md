@@ -227,6 +227,19 @@
 - 실행(전체): `.\gradlew test`
 - 결과(전체): 성공 (`BUILD SUCCESSFUL`)
 
+## 2026-02-16 - Phase 4.2 Cart Coupon (Proportional Distribution)
+
+### Green
+- 구현: `CartCouponTest`에 비례 분배 4개 테스트 추가
+- 검증: 비례 분배/원 단위 절사/나머지 최고가 할당/합계 일치 확인
+- 실행(단위): `.\gradlew test --tests "example.com.kentbackspring.coupon.CartCouponTest"`
+- 결과(단위): 성공 (`BUILD SUCCESSFUL`)
+
+### Refactor
+- 변경: 구조 리팩터링 없음 (기존 분배 로직 재사용)
+- 실행(전체): `.\gradlew test`
+- 결과(전체): 성공 (`BUILD SUCCESSFUL`)
+
 ## 2026-02-16 - Phase 2.1 Coupon Basic Info (Name & Description)
 
 ### Red

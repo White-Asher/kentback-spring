@@ -52,4 +52,64 @@ class CartCouponTest {
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessage("minimum order amount not met");
     }
+
+    @Test
+    void shouldDistributeCartDiscountByProductPriceRatio() {
+        Cart cart = new Cart(List.of(
+                new Product("P-100", "FOOD", "B-1", 10_000, 1),
+                new Product("P-200", "FOOD", "B-2", 5_000, 1),
+                new Product("P-300", "FOOD", "B-3", 5_000, 1)
+        ), 0);
+        CartCoupon coupon = CartCoupon.fixedAmount(4_000, 0);
+
+        CartCouponResult result = coupon.apply(cart);
+
+        assertThat(result.discountByProductId().get("P-100")).isEqualTo(2_000);
+        assertThat(result.discountByProductId().get("P-200")).isEqualTo(1_000);
+        assertThat(result.discountByProductId().get("P-300")).isEqualTo(1_000);
+    }
+
+    @Test
+    void shouldTruncateFractionalDiscountOnDistributionToWonUnit() {
+        Cart cart = new Cart(List.of(
+                new Product("P-100", "FOOD", "B-1", 3_333, 1),
+                new Product("P-200", "FOOD", "B-2", 3_333, 1),
+                new Product("P-300", "FOOD", "B-3", 3_334, 1)
+        ), 0);
+        CartCoupon coupon = CartCoupon.fixedAmount(1_000, 0);
+
+        CartCouponResult result = coupon.apply(cart);
+
+        assertThat(result.discountByProductId().get("P-100")).isEqualTo(333);
+        assertThat(result.discountByProductId().get("P-200")).isEqualTo(333);
+    }
+
+    @Test
+    void shouldAllocateRemainderDiscountToMostExpensiveProduct() {
+        Cart cart = new Cart(List.of(
+                new Product("P-100", "FOOD", "B-1", 3_333, 1),
+                new Product("P-200", "FOOD", "B-2", 3_333, 1),
+                new Product("P-300", "FOOD", "B-3", 3_334, 1)
+        ), 0);
+        CartCoupon coupon = CartCoupon.fixedAmount(1_000, 0);
+
+        CartCouponResult result = coupon.apply(cart);
+
+        assertThat(result.discountByProductId().get("P-300")).isEqualTo(334);
+    }
+
+    @Test
+    void shouldMakeDistributedDiscountSumExactlyEqualToTotalDiscount() {
+        Cart cart = new Cart(List.of(
+                new Product("P-100", "FOOD", "B-1", 3_333, 1),
+                new Product("P-200", "FOOD", "B-2", 3_333, 1),
+                new Product("P-300", "FOOD", "B-3", 3_334, 1)
+        ), 0);
+        CartCoupon coupon = CartCoupon.fixedAmount(1_000, 0);
+
+        CartCouponResult result = coupon.apply(cart);
+        int distributedSum = result.discountByProductId().values().stream().mapToInt(Integer::intValue).sum();
+
+        assertThat(distributedSum).isEqualTo(result.totalDiscount());
+    }
 }
