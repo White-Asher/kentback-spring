@@ -87,3 +87,62 @@
 - 변경: 구조 리팩터링 없음 (기능 검증 중심 최소 변경)
 - 실행(전체): `.\gradlew test`
 - 결과(전체): 성공 (`BUILD SUCCESSFUL`)
+
+## 2026-02-16 - Phase 2.1 Coupon Basic Info (Coupon Code)
+
+### Red
+- 대상: `CouponTest.shouldHaveUniqueCouponCode`
+- 실행: `.\gradlew test --tests "example.com.kentbackspring.coupon.CouponTest"`
+- 결과: 실패
+  - `compileTestJava FAILED`
+  - 원인: `Coupon` 클래스 미구현
+
+### Green
+- 구현: `Coupon` 도메인 타입 추가 (`record Coupon(String code)`)
+- 실행(단위): `.\gradlew test --tests "example.com.kentbackspring.coupon.CouponTest"`
+- 결과(단위): 성공 (`BUILD SUCCESSFUL`)
+
+### Refactor
+- 변경: 구조 리팩터링 없음 (최소 구현 유지)
+- 실행(전체): `.\gradlew test`
+- 결과(전체): 성공 (`BUILD SUCCESSFUL`)
+
+## 2026-02-16 - Phase 2.1 Coupon Basic Info (Name & Description)
+
+### Red
+- 대상: `CouponTest.shouldHaveCouponNameAndDescription`
+- 실행: `.\gradlew test --tests "*CouponTest"`
+- 결과: 실패
+  - `compileTestJava FAILED`
+  - 원인: `Coupon` 생성자 `(String, String, String)` 및 `name()/description()` 접근자 미구현
+
+### Green
+- 구현: `Coupon` 레코드를 `record Coupon(String code, String name, String description)`로 확장
+- 구현: 기존 코드 검증 테스트를 새 생성자 시그니처에 맞게 갱신
+- 실행(단위): `.\gradlew test --tests "*CouponTest"`
+- 결과(단위): 성공 (`BUILD SUCCESSFUL`)
+
+### Refactor
+- 변경: 구조 리팩터링 없음 (최소 구현 유지)
+- 실행(전체): `.\gradlew test`
+- 결과(전체): 성공 (`BUILD SUCCESSFUL`)
+
+## 2026-02-16 - Phase 2.1 Coupon Basic Info (Validity Start/End DateTime)
+
+### Red
+- 대상: `CouponTest.shouldHaveCouponValidityStartAndEndDateTime`
+- 실행: `.\gradlew test --tests "*CouponTest"`
+- 결과: 실패
+  - `compileTestJava FAILED`
+  - 원인: `Coupon` 생성자 `(String, String, String, LocalDateTime, LocalDateTime)` 및 `validFrom()/validTo()` 접근자 미구현
+
+### Green
+- 구현: `Coupon` 레코드를 `validFrom`, `validTo` 필드를 포함하도록 확장
+- 구현: 기존 `CouponTest` 생성자 호출을 유효 시작/종료일시 인자를 포함하도록 갱신
+- 실행(단위): `.\gradlew test --tests "*CouponTest"`
+- 결과(단위): 성공 (`BUILD SUCCESSFUL`)
+
+### Refactor
+- 변경: 구조 리팩터링 없음 (최소 구현 유지)
+- 실행(전체): `.\gradlew test`
+- 결과(전체): 성공 (`BUILD SUCCESSFUL`)
