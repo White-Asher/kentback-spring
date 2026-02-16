@@ -5,6 +5,9 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+/**
+ * 정액 할인 쿠폰의 핵심 규칙 검증 테스트.
+ */
 class FixedAmountDiscountCouponTest {
 
     @Test
