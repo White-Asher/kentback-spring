@@ -39,4 +39,15 @@ public class CouponLifecycleService {
                 .filter(coupon -> coupon.isAvailableAt(now))
                 .toList();
     }
+
+    public void cancelOrderAndRestoreCoupon(
+            String userId,
+            String couponCode,
+            LocalDateTime canceledAt,
+            int extendDaysIfExpired
+    ) {
+        IssuedCoupon issuedCoupon = findIssuedCoupon(userId, couponCode)
+                .orElseThrow(() -> new IllegalStateException("issued coupon not found"));
+        issuedCoupon.restore(canceledAt, extendDaysIfExpired);
+    }
 }

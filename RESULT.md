@@ -345,6 +345,20 @@
 - 실행(전체): `.\gradlew test`
 - 결과(전체): 성공 (`BUILD SUCCESSFUL`)
 
+## 2026-02-16 - Phase 7.1 Order Cancel (Full Cancel)
+
+### Green
+- 구현: `CouponLifecycleService.cancelOrderAndRestoreCoupon(...)` 추가
+- 구현: `CouponLifecycleServiceTest`에 전체 취소 복구 4개 테스트 추가
+- 검증: 복구 후 미사용 전환, 감사 로그 유지, 만료 쿠폰 연장 정책 확인
+- 실행(단위): `.\gradlew test --tests "example.com.kentbackspring.coupon.CouponLifecycleServiceTest"`
+- 결과(단위): 성공 (`BUILD SUCCESSFUL`)
+
+### Refactor
+- 변경: 구조 리팩터링 없음 (최소 구현 유지)
+- 실행(전체): `.\gradlew test`
+- 결과(전체): 성공 (`BUILD SUCCESSFUL`)
+
 ## 2026-02-16 - Phase 2.1 Coupon Basic Info (Name & Description)
 
 ### Red

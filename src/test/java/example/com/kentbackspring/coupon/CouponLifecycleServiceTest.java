@@ -183,4 +183,71 @@ class CouponLifecycleServiceTest {
 
         assertThat(available).isEmpty();
     }
+
+    @Test
+    void shouldRestoreUsedCouponWhenOrderFullyCanceled() {
+        lifecycleService.issueCoupon(
+                "user-1",
+                "WELCOME-10",
+                LocalDateTime.of(2026, 2, 16, 10, 0),
+                LocalDateTime.of(2026, 2, 28, 23, 59, 59)
+        );
+        lifecycleService.useCoupon("user-1", "WELCOME-10", "ORDER-1", LocalDateTime.of(2026, 2, 17, 9, 0));
+
+        lifecycleService.cancelOrderAndRestoreCoupon("user-1", "WELCOME-10", LocalDateTime.of(2026, 2, 18, 10, 0), 0);
+
+        IssuedCoupon restored = lifecycleService.findIssuedCoupon("user-1", "WELCOME-10").orElseThrow();
+        assertThat(restored.status()).isEqualTo(CouponUsageStatus.UNUSED);
+    }
+
+    @Test
+    void shouldChangeRestoredCouponToUnusedState() {
+        lifecycleService.issueCoupon(
+                "user-1",
+                "WELCOME-10",
+                LocalDateTime.of(2026, 2, 16, 10, 0),
+                LocalDateTime.of(2026, 2, 28, 23, 59, 59)
+        );
+        lifecycleService.useCoupon("user-1", "WELCOME-10", "ORDER-1", LocalDateTime.of(2026, 2, 17, 9, 0));
+
+        lifecycleService.cancelOrderAndRestoreCoupon("user-1", "WELCOME-10", LocalDateTime.of(2026, 2, 18, 10, 0), 0);
+
+        IssuedCoupon restored = lifecycleService.findIssuedCoupon("user-1", "WELCOME-10").orElseThrow();
+        assertThat(restored.status()).isEqualTo(CouponUsageStatus.UNUSED);
+        assertThat(restored.usedAt()).isNull();
+        assertThat(restored.orderId()).isNull();
+    }
+
+    @Test
+    void shouldKeepCouponUsageHistoryForAudit() {
+        lifecycleService.issueCoupon(
+                "user-1",
+                "WELCOME-10",
+                LocalDateTime.of(2026, 2, 16, 10, 0),
+                LocalDateTime.of(2026, 2, 28, 23, 59, 59)
+        );
+        lifecycleService.useCoupon("user-1", "WELCOME-10", "ORDER-1", LocalDateTime.of(2026, 2, 17, 9, 0));
+        lifecycleService.cancelOrderAndRestoreCoupon("user-1", "WELCOME-10", LocalDateTime.of(2026, 2, 18, 10, 0), 0);
+
+        IssuedCoupon restored = lifecycleService.findIssuedCoupon("user-1", "WELCOME-10").orElseThrow();
+
+        assertThat(restored.usageAuditLog()).anyMatch(entry -> entry.startsWith("USED:"));
+        assertThat(restored.usageAuditLog()).anyMatch(entry -> entry.startsWith("RESTORED:"));
+    }
+
+    @Test
+    void shouldApplyExpiryExtensionPolicyForExpiredCouponOnRestore() {
+        lifecycleService.issueCoupon(
+                "user-1",
+                "WELCOME-10",
+                LocalDateTime.of(2026, 2, 1, 10, 0),
+                LocalDateTime.of(2026, 2, 10, 23, 59, 59)
+        );
+        lifecycleService.useCoupon("user-1", "WELCOME-10", "ORDER-1", LocalDateTime.of(2026, 2, 9, 9, 0));
+
+        lifecycleService.cancelOrderAndRestoreCoupon("user-1", "WELCOME-10", LocalDateTime.of(2026, 2, 20, 10, 0), 7);
+
+        IssuedCoupon restored = lifecycleService.findIssuedCoupon("user-1", "WELCOME-10").orElseThrow();
+        assertThat(restored.expiresAt()).isEqualTo(LocalDateTime.of(2026, 2, 27, 10, 0));
+    }
 }
