@@ -175,6 +175,19 @@
 - 실행(전체): `.\gradlew test`
 - 결과(전체): 성공 (`BUILD SUCCESSFUL`)
 
+## 2026-02-16 - Phase 3.4 Product Coupon (Brand Based)
+
+### Green
+- 구현: `ProductCoupon.forBrand(...)` 팩토리 추가
+- 구현: `ProductCouponTest`에 브랜드 기반 2개 테스트 추가
+- 실행(단위): `.\gradlew test --tests "example.com.kentbackspring.coupon.ProductCouponTest"`
+- 결과(단위): 성공 (`BUILD SUCCESSFUL`)
+
+### Refactor
+- 변경: 구조 리팩터링 없음 (최소 구현 유지)
+- 실행(전체): `.\gradlew test`
+- 결과(전체): 성공 (`BUILD SUCCESSFUL`)
+
 ## 2026-02-16 - Phase 2.1 Coupon Basic Info (Name & Description)
 
 ### Red

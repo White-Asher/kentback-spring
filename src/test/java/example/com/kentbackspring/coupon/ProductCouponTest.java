@@ -75,4 +75,20 @@ class ProductCouponTest {
 
         assertThat(coupon.canApply(subcategoryProduct)).isFalse();
     }
+
+    @Test
+    void shouldApplyCouponOnlyToSpecificBrand() {
+        ProductCoupon coupon = ProductCoupon.forBrand("BRAND-A", 1_000);
+        Product targetProduct = new Product("P-100", "FOOD", "BRAND-A", 10_000, 1);
+
+        assertThat(coupon.canApply(targetProduct)).isTrue();
+    }
+
+    @Test
+    void shouldNotApplyCouponWhenBrandDoesNotMatch() {
+        ProductCoupon coupon = ProductCoupon.forBrand("BRAND-A", 1_000);
+        Product nonTargetProduct = new Product("P-100", "FOOD", "BRAND-B", 10_000, 1);
+
+        assertThat(coupon.canApply(nonTargetProduct)).isFalse();
+    }
 }
