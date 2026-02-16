@@ -279,6 +279,19 @@
 - 실행(전체): `.\gradlew test`
 - 결과(전체): 성공 (`BUILD SUCCESSFUL`)
 
+## 2026-02-16 - Phase 5.2 Coupon Stacking Policy (Auto Best Discount)
+
+### Green
+- 구현: `CouponPolicyService.selectBestCoupon(...)` 추가
+- 구현: `CouponPolicyServiceTest`에 최대 할인 자동 선택/동일 할인 시 빠른 만료 선택 테스트 2개 추가
+- 실행(단위): `.\gradlew test --tests "example.com.kentbackspring.coupon.CouponPolicyServiceTest"`
+- 결과(단위): 성공 (`BUILD SUCCESSFUL`)
+
+### Refactor
+- 변경: 구조 리팩터링 없음 (최소 구현 유지)
+- 실행(전체): `.\gradlew test`
+- 결과(전체): 성공 (`BUILD SUCCESSFUL`)
+
 ## 2026-02-16 - Phase 2.1 Coupon Basic Info (Name & Description)
 
 ### Red

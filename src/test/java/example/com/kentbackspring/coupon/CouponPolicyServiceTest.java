@@ -43,4 +43,25 @@ class CouponPolicyServiceTest {
 
         assertThat(chosen.code()).isEqualTo("COUPON-B");
     }
+
+    @Test
+    void shouldAutomaticallySelectCouponWithLargestDiscount() {
+        CouponCandidate couponA = new CouponCandidate("COUPON-A", 1_000, LocalDateTime.of(2026, 2, 28, 23, 59, 59));
+        CouponCandidate couponB = new CouponCandidate("COUPON-B", 3_000, LocalDateTime.of(2026, 2, 28, 23, 59, 59));
+        CouponCandidate couponC = new CouponCandidate("COUPON-C", 2_000, LocalDateTime.of(2026, 2, 28, 23, 59, 59));
+
+        CouponCandidate selected = policyService.selectBestCoupon(List.of(couponA, couponB, couponC));
+
+        assertThat(selected.code()).isEqualTo("COUPON-B");
+    }
+
+    @Test
+    void shouldSelectEarliestExpiringCouponWhenFixedDiscountIsSame() {
+        CouponCandidate couponA = new CouponCandidate("COUPON-A", 2_000, LocalDateTime.of(2026, 2, 25, 23, 59, 59));
+        CouponCandidate couponB = new CouponCandidate("COUPON-B", 2_000, LocalDateTime.of(2026, 2, 20, 23, 59, 59));
+
+        CouponCandidate selected = policyService.selectBestCoupon(List.of(couponA, couponB));
+
+        assertThat(selected.code()).isEqualTo("COUPON-B");
+    }
 }

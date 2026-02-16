@@ -24,4 +24,17 @@ public class CouponPolicyService {
         }
         return coupons.get(0);
     }
+
+    public CouponCandidate selectBestCoupon(List<CouponCandidate> coupons) {
+        return coupons.stream()
+                .sorted((left, right) -> {
+                    int discountCompare = Integer.compare(right.discountAmount(), left.discountAmount());
+                    if (discountCompare != 0) {
+                        return discountCompare;
+                    }
+                    return left.expiresAt().compareTo(right.expiresAt());
+                })
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("no coupons to apply"));
+    }
 }
