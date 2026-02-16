@@ -3,6 +3,7 @@ package example.com.kentbackspring.coupon;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class PercentageDiscountCouponTest {
 
@@ -44,5 +45,41 @@ class PercentageDiscountCouponTest {
         int discountedPrice = coupon.apply(productPrice);
 
         assertThat(discountedPrice).isEqualTo(0);
+    }
+
+    @Test
+    void shouldNotApplyCouponWhenBelowMinimumPurchaseAmount() {
+        PercentageDiscountCoupon coupon = new PercentageDiscountCoupon(10, null, 10_000, 1);
+
+        assertThatThrownBy(() -> coupon.apply(9_000, 1))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessage("minimum purchase amount not met");
+    }
+
+    @Test
+    void shouldApplyCouponWhenExactlyMeetingMinimumPurchaseAmount() {
+        PercentageDiscountCoupon coupon = new PercentageDiscountCoupon(10, null, 10_000, 1);
+
+        int discountedPrice = coupon.apply(10_000, 1);
+
+        assertThat(discountedPrice).isEqualTo(9_000);
+    }
+
+    @Test
+    void shouldNotApplyCouponWhenBelowMinimumPurchaseQuantity() {
+        PercentageDiscountCoupon coupon = new PercentageDiscountCoupon(10, null, 0, 2);
+
+        assertThatThrownBy(() -> coupon.apply(10_000, 1))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessage("minimum purchase quantity not met");
+    }
+
+    @Test
+    void shouldValidateMinimumPurchaseBasedOnAmountBeforeDiscount() {
+        PercentageDiscountCoupon coupon = new PercentageDiscountCoupon(90, null, 10_000, 1);
+
+        int discountedPrice = coupon.apply(10_000, 1);
+
+        assertThat(discountedPrice).isEqualTo(1_000);
     }
 }

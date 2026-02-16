@@ -62,3 +62,28 @@
 - 변경: 별도 구조 리팩터링 없음 (최소 구현 유지)
 - 실행(전체): `.\gradlew test`
 - 결과(전체): 성공 (`BUILD SUCCESSFUL`)
+
+## 2026-02-16 - Phase 1.3 Minimum Purchase Conditions
+
+### Red
+- 대상: `PercentageDiscountCouponTest`의 최소 구매 조건 4개 테스트
+  - `shouldNotApplyCouponWhenBelowMinimumPurchaseAmount`
+  - `shouldApplyCouponWhenExactlyMeetingMinimumPurchaseAmount`
+  - `shouldNotApplyCouponWhenBelowMinimumPurchaseQuantity`
+  - `shouldValidateMinimumPurchaseBasedOnAmountBeforeDiscount`
+- 실행: `.\gradlew test --tests "example.com.kentbackspring.coupon.PercentageDiscountCouponTest"`
+- 결과: 실패
+  - `compileTestJava FAILED`
+  - 원인: 최소 구매 조건 생성자/수량 기반 `apply` 미구현
+
+### Green
+- 구현: `PercentageDiscountCoupon`에 최소 구매 금액/수량 필드 및 오버로드 생성자 추가
+- 구현: `apply(int productPrice, int purchaseQuantity)` 추가
+- 구현: 최소 구매 금액/수량 검증 로직 추가 (검증 기준: 할인 전 금액)
+- 실행(단위): `.\gradlew test --tests "example.com.kentbackspring.coupon.PercentageDiscountCouponTest"`
+- 결과(단위): 성공 (`BUILD SUCCESSFUL`)
+
+### Refactor
+- 변경: 구조 리팩터링 없음 (기능 검증 중심 최소 변경)
+- 실행(전체): `.\gradlew test`
+- 결과(전체): 성공 (`BUILD SUCCESSFUL`)
