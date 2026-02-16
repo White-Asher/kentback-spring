@@ -26,4 +26,10 @@ public class CouponLifecycleService {
     public Optional<IssuedCoupon> findIssuedCoupon(String userId, String couponCode) {
         return Optional.ofNullable(issuedCouponsByUser.getOrDefault(userId, Map.of()).get(couponCode));
     }
+
+    public void useCoupon(String userId, String couponCode, String orderId, LocalDateTime usedAt) {
+        IssuedCoupon issuedCoupon = findIssuedCoupon(userId, couponCode)
+                .orElseThrow(() -> new IllegalStateException("issued coupon not found"));
+        issuedCoupon.use(orderId, usedAt);
+    }
 }
