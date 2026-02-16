@@ -148,6 +148,19 @@
 - 실행(전체): `.\gradlew test`
 - 결과(전체): 성공 (`BUILD SUCCESSFUL`)
 
+## 2026-02-16 - Phase 3.2 Product Coupon (Multiple Product Targets)
+
+### Green
+- 구현: `ProductCouponTest`에 다중 상품 ID 대상 2개 테스트 추가
+- 검증: 기존 `ProductCoupon` 다중 ID 매칭 로직으로 요구사항 충족 확인
+- 실행(단위): `.\gradlew test --tests "example.com.kentbackspring.coupon.ProductCouponTest"`
+- 결과(단위): 성공 (`BUILD SUCCESSFUL`)
+
+### Refactor
+- 변경: 구조 리팩터링 없음 (기존 구현 재사용)
+- 실행(전체): `.\gradlew test`
+- 결과(전체): 성공 (`BUILD SUCCESSFUL`)
+
 ## 2026-02-16 - Phase 2.1 Coupon Basic Info (Name & Description)
 
 ### Red

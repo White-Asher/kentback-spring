@@ -33,4 +33,20 @@ class ProductCouponTest {
 
         assertThat(coupon.canApply(product)).isTrue();
     }
+
+    @Test
+    void shouldApplyCouponWhenAnyProductIdInMultiTargetListMatches() {
+        ProductCoupon coupon = ProductCoupon.forProductIds(Set.of("P-100", "P-200", "P-300"), 1_000);
+        Product product = new Product("P-200", "C-1", "B-1", 10_000, 1);
+
+        assertThat(coupon.canApply(product)).isTrue();
+    }
+
+    @Test
+    void shouldNotApplyCouponWhenProductNotInMultiTargetList() {
+        ProductCoupon coupon = ProductCoupon.forProductIds(Set.of("P-100", "P-200", "P-300"), 1_000);
+        Product product = new Product("P-999", "C-1", "B-1", 10_000, 1);
+
+        assertThat(coupon.canApply(product)).isFalse();
+    }
 }
