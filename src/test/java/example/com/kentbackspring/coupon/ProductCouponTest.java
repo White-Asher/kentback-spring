@@ -109,4 +109,24 @@ class ProductCouponTest {
         assertThat(coupon.canApply(brandMismatch)).isFalse();
         assertThat(coupon.canApply(categoryMismatch)).isFalse();
     }
+
+    @Test
+    void shouldApplyDiscountToMultipleQuantityOfSameProductWithOneCoupon() {
+        ProductCoupon coupon = ProductCoupon.forProductIds(Set.of("P-100"), 1_000);
+        Product product = new Product("P-100", "FOOD", "BRAND-A", 10_000, 3);
+
+        int discount = coupon.calculateDiscount(product);
+
+        assertThat(discount).isEqualTo(3_000);
+    }
+
+    @Test
+    void shouldLimitDiscountToOneProductWhenConfiguredAsOnePerCoupon() {
+        ProductCoupon coupon = ProductCoupon.forProductIdsWithQuantityLimit(Set.of("P-100"), 1_000, 1);
+        Product product = new Product("P-100", "FOOD", "BRAND-A", 10_000, 3);
+
+        int discount = coupon.calculateDiscount(product);
+
+        assertThat(discount).isEqualTo(1_000);
+    }
 }

@@ -47,6 +47,22 @@ public class ProductCoupon {
         );
     }
 
+    public static ProductCoupon forProductIdsWithQuantityLimit(
+            Set<String> productIds,
+            int discountAmountPerUnit,
+            int maxApplicableQuantityPerCoupon
+    ) {
+        return new ProductCoupon(
+                productIds,
+                Set.of(),
+                false,
+                Set.of(),
+                false,
+                discountAmountPerUnit,
+                maxApplicableQuantityPerCoupon
+        );
+    }
+
     public static ProductCoupon forCategory(String categoryId, boolean includeSubcategories, int discountAmountPerUnit) {
         return new ProductCoupon(
                 Set.of(),
