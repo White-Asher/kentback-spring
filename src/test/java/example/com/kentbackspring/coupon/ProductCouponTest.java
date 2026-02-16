@@ -91,4 +91,22 @@ class ProductCouponTest {
 
         assertThat(coupon.canApply(nonTargetProduct)).isFalse();
     }
+
+    @Test
+    void shouldCombineBrandAndCategoryConditionsWithAnd() {
+        ProductCoupon coupon = ProductCoupon.forBrandAndCategory("BRAND-A", "FOOD", false, 1_000);
+        Product product = new Product("P-100", "FOOD", "BRAND-A", 10_000, 1);
+
+        assertThat(coupon.canApply(product)).isTrue();
+    }
+
+    @Test
+    void shouldApplyCouponOnlyWhenAllCombinedConditionsSatisfied() {
+        ProductCoupon coupon = ProductCoupon.forBrandAndCategory("BRAND-A", "FOOD", false, 1_000);
+        Product brandMismatch = new Product("P-100", "FOOD", "BRAND-B", 10_000, 1);
+        Product categoryMismatch = new Product("P-100", "BEAUTY", "BRAND-A", 10_000, 1);
+
+        assertThat(coupon.canApply(brandMismatch)).isFalse();
+        assertThat(coupon.canApply(categoryMismatch)).isFalse();
+    }
 }

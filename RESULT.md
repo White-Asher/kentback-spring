@@ -188,6 +188,19 @@
 - 실행(전체): `.\gradlew test`
 - 결과(전체): 성공 (`BUILD SUCCESSFUL`)
 
+## 2026-02-16 - Phase 3.5 Product Coupon (Combined Conditions)
+
+### Green
+- 구현: `ProductCoupon.forBrandAndCategory(...)` 팩토리 추가 (AND 조건)
+- 구현: `ProductCouponTest`에 조합 조건 2개 테스트 추가
+- 실행(단위): `.\gradlew test --tests "example.com.kentbackspring.coupon.ProductCouponTest"`
+- 결과(단위): 성공 (`BUILD SUCCESSFUL`)
+
+### Refactor
+- 변경: 구조 리팩터링 없음 (최소 구현 유지)
+- 실행(전체): `.\gradlew test`
+- 결과(전체): 성공 (`BUILD SUCCESSFUL`)
+
 ## 2026-02-16 - Phase 2.1 Coupon Basic Info (Name & Description)
 
 ### Red
